@@ -30,6 +30,7 @@ public class Parallaxer : MonoBehaviour
     public bool spawnImmediate; // particle prewarm (cloud and stars)
     public Vector3 immediateSpawnPos;
     public Vector2 targetAspectRatio; // 4/3 aspect usually for iPad
+    public bool useTargetAspectRatioX = false;
 
     float spawnTimer;
     float targetAspect; // 10/16? - this always is done by dividing x by y
@@ -109,8 +110,14 @@ public class Parallaxer : MonoBehaviour
         Transform t = GetPoolObject();
         if (t == null) return;
         Vector3 pos = Vector3.zero;
-        //pos.x = (defaultSpawnPos.x * Camera.main.aspect) / targetAspect;
-        pos.x = defaultSpawnPos.x;
+        if (useTargetAspectRatioX)
+        {
+            pos.x = (defaultSpawnPos.x * Camera.main.aspect) / targetAspect;
+        }
+        else
+        {
+            pos.x = defaultSpawnPos.x;
+        }
         pos.y = Random.Range(ySpawnRange.minY, ySpawnRange.maxY);
         t.position = pos;
     }
